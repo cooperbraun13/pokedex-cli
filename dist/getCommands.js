@@ -1,4 +1,5 @@
 import { commandExit } from "./commandExit.js";
+import { commandHelp } from "./commandHelp.js";
 export function getCommands() {
     return {
         exit: {
@@ -6,6 +7,10 @@ export function getCommands() {
             description: "Exits the pokedex",
             callback: commandExit,
         },
-        // more commands here
+        help: {
+            name: "help",
+            description: "Lists all commands of the pokedex",
+            callback: commandHelp,
+        },
     };
 }
