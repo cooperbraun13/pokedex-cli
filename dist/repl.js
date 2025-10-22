@@ -1,4 +1,6 @@
 import { createInterface } from "readline";
+import { cleanInput } from "./cleanInput.js";
+import { getCommands } from "./getCommands.js";
 export function startREPL() {
     const rl = createInterface({
         input: process.stdin,
@@ -7,19 +9,24 @@ export function startREPL() {
     });
     rl.prompt();
     rl.on("line", async (input) => {
-        const words = cleanInput(input);
-        if (words.length === 0) {
+        try {
+            const words = cleanInput(input);
+            if (words.length === 0) {
+                console.log("Not a valid command");
+                return;
+            }
+            const command = words[0];
+            const commands = getCommands();
+            if (commands[command]) {
+                commands[command].callback(commands);
+            }
+            else {
+                console.log("Unknown command");
+            }
             rl.prompt();
         }
-        const commandName = words[0];
-        console.log(`Your command was: ${commandName}`);
-        rl.prompt();
+        catch (err) {
+            console.log(`Error: ${err}`);
+        }
     });
-}
-export function cleanInput(input) {
-    return input
-        .toLowerCase()
-        .trim()
-        .split(" ")
-        .filter((word) => word !== "");
 }
