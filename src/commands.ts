@@ -1,4 +1,4 @@
-import { CLICommand } from "./command.js";
+import { CLICommand } from "./state.js";
 import { commandExit } from "./commandExit.js";
 import { commandHelp } from "./commandHelp.js";
 
