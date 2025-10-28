@@ -4,7 +4,12 @@ export class PokeAPI {
   constructor() {}
 
   async fetchLocations(pageURL?: string): Promise<ShallowLocations> {
-    // implement this
+    const url = pageURL ? pageURL : "https://pokeapi.co/api/v2/location-area";
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data;
   }
 
   async fetchLocation(locationName: string): Promise<Location> {
@@ -12,11 +17,18 @@ export class PokeAPI {
   }
 }
 
+export type Result = {
+  name: string;
+  url: string;
+};
+
 export type ShallowLocations = {
-  name: String;
-  url_id: number;
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Result[];
 };
 
 export type Location = {
-  // add properties here
+  name: string;
 };
