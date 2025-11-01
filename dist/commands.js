@@ -1,7 +1,7 @@
 import { commandExit } from "./commandExit.js";
 import { commandHelp } from "./commandHelp.js";
-import { commandMap } from "./commandMap.js";
-import { commandMapb } from "./commandMapb.js";
+import { commandMapForward } from "./commandMapForward.js";
+import { commandMapBack } from "./commandMapBack.js";
 export function getCommands() {
     return {
         exit: {
@@ -16,13 +16,13 @@ export function getCommands() {
         },
         map: {
             name: "map",
-            description: "Displays name of 20 location areas in the Pokemon world",
-            callback: commandMap,
+            description: "Get the next page of locations",
+            callback: commandMapForward,
         },
         mapb: {
             name: "mapb",
-            description: "Displays name of the previous 20 location areas in the Pokemon world",
-            callback: commandMapb,
+            description: "Get the previous page of locations",
+            callback: commandMapBack,
         },
     };
 }
