@@ -14,10 +14,10 @@ export function startREPL(state) {
             return;
         }
         try {
-            cmd.callback(state);
+            await cmd.callback(state);
         }
         catch (err) {
-            console.log(err);
+            console.log(String(err));
         }
         state.readline.prompt();
     });
