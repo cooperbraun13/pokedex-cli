@@ -13,7 +13,12 @@ export class PokeAPI {
   }
 
   async fetchLocation(locationName: string): Promise<Location> {
-    // implement this
+    const url = `https://pokeapi.co/api/v2/location/${locationName}`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data;
   }
 }
 
