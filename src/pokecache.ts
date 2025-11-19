@@ -28,9 +28,14 @@ export class Cache {
   }
 
   // retrieve an entry from the cache
-  get<T>(key: string): CacheEntry<T> | undefined {
+  get<T>(key: string): T | undefined {
     // if key does not exist, Map.get returns undefined automatically
-    return this.#cache.get(key);
+    const entry = this.#cache.get(key);
+
+    if (!entry) {
+      return undefined;
+    }
+    return entry.val as T;
   }
 
   // delete any entries that are older than the interval
