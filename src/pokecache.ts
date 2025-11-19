@@ -1,5 +1,5 @@
 // a single item in the cache
-export type CacheEntry<T> = {
+type CacheEntry<T> = {
   createdAt: number; // Date.now() when the entry was created
   val: T; // the value we're caching
 };
@@ -18,7 +18,7 @@ export class Cache {
   }
 
   // add an entry to the cache
-  add<T>(key: string, val: T): void {
+  add<T>(key: string, val: T) {
     const entry: CacheEntry<T> = {
       createdAt: Date.now(),
       val,
@@ -28,18 +28,25 @@ export class Cache {
   }
 
   // retrieve an entry from the cache
-  get<T>(key: string): T | undefined {
+  get<T>(key: string) {
     // if key does not exist, Map.get returns undefined automatically
     const entry = this.#cache.get(key);
 
-    if (!entry) {
-      return undefined;
+    if (entry !== undefined) {
+      return entry.val as T;
     }
-    return entry.val as T;
+    return undefined;
+  }
+
+  // start a cleanup loop
+  #startReapLoop() {
+    this.#reapIntervalId = setInterval(() => {
+      this.#reap();
+    }, this.#interval);
   }
 
   // delete any entries that are older than the interval
-  #reap(): void {
+  #reap() {
     const now = Date.now();
 
     for (const [key, entry] of this.#cache) {
@@ -49,16 +56,9 @@ export class Cache {
     }
   }
 
-  // start a cleanup loop
-  #startReapLoop(): void {
-    this.#reapIntervalId = setInterval(() => {
-      this.#reap();
-    }, this.#interval);
-  }
-
   // stop the interval loop when the cache is being shut down
-  stopReapLoop(): void {
-    if (this.#reapIntervalId !== undefined) {
+  stopReapLoop() {
+    if (this.#reapIntervalId) {
       clearInterval(this.#reapIntervalId);
       this.#reapIntervalId = undefined;
     }
