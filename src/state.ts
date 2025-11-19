@@ -24,7 +24,8 @@ export function initState(): State {
     prompt: "Pokedex > ",
   });
 
-  const cache = new Cache(10000);
+  const interval = 10_000; // 10 seconds
+  const cache = new Cache(interval);
 
   return {
     readline: rl,
